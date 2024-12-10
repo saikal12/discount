@@ -7,3 +7,4 @@ for i in range(1, 6):
         password='password123'
     )
     print(f'Test user {i} created.')
+

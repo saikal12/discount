@@ -5,6 +5,27 @@ from rest_framework import status
 from decimal import Decimal
 
 
+def amount_information(request):
+    user_id, items = serializing_and_get_data(request)
+    subtotal = calculate_subtotal(items)
+    profile = get_profile(user_id)
+    cart_discoint, cart_value = apply_cart_discount(subtotal)
+    loyal_discount, loyal_value = apply_loyalty_discount(
+        profile, cart_value
+        )
+    discount_total = cart_discoint['amount'] + loyal_discount['amount']
+    cart_discount_amount = Decimal(discount_total).quantize(Decimal('0.01'))
+    final_amount = Decimal(loyal_value).quantize(Decimal('0.01'))
+    return {
+        "user_id": user_id,
+        "items": items,
+        "subtotal": subtotal,
+        "cart_discount_amount": cart_discount_amount,
+        "final_amount": final_amount,
+        "status": "pending"
+    }
+
+
 def serializing_and_get_data(request):
     """Serializing and get user_id, items"""
     serializer = DiscountCalculationSerializer(data=request.data)

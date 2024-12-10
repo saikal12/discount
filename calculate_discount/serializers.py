@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile, Order, OrderItem
+from .models import Profile, Order, OrderItem, SystemLog
 
 
 class ProfileSerializer(serializers.Serializer):
@@ -43,11 +43,12 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     """Serializing Order"""
     items = OrderItemSerializer(many=True)
+    order_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Order
         fields = ['user_id', 'items', 'subtotal', 'discount_amount',
-                  'final_amount', 'status']
+                  'final_amount', 'status', 'order_id']
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')
@@ -86,7 +87,7 @@ class DiscountCalculationSerializer(serializers.Serializer):
 class SystemLogSerializer(serializers.ModelSerializer):
     """Serializing System Log"""
     class Meta:
-        model = Order
+        model = SystemLog
         fields = ['log_id', 'user_id', 'action_type', 'details', 'created_at']
         extra_kwargs = {
             'log_id': {'source': 'id', 'read_only': True},

@@ -1,4 +1,4 @@
-###Schema Design Documentation
+### Schema Design Documentation
 
 ### Entities and Their Purposes
 1. **Profile**:
