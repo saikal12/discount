@@ -8,6 +8,63 @@ This project provides an API for managing discounts, user profiles, orders, and 
 ***System Logs:*** View actions performed in the system for audit and debugging purposes.<br>
 ***Order Management:*** Manage orders using a RESTful interface.<br>
 
+## Usage
+
+#### Clone the repository
+
+```sh
+git clone https://github.com/94R1K/cat_charity_fund.git
+```
+
+#### Go to the discount folder, install and run the virtual environment.
+
+```sh
+cd  discount
+```
+
+```
+python -m venv venv
+```
+
+* If you are on Linux/MacOS
+
+```
+source venv/bin/activate
+```
+
+* If you are on windows
+
+```
+source venv/Scripts/activate
+```
+#### Install dependencies:
+
+```
+pip install -r requirements.txt
+```
+#### Run the apps on the local server
+```
+python manage.py runserver
+```
+## Swagger and Redoc Documentation
+The API includes built-in documentation using Swagger and Redoc.<br>
+ You can use the following endpoints to view the API specification:
+ 
+```
+GET /swagger.json
+GET /swagger.yaml
+```
+
+```
+GET /swagger/
+```
+Opens the Swagger UI, which allows you to test and view API endpoints.
+```
+GET /redoc/
+```
+Opens the Redoc user interface for easy reading of the API documentation.
+
+
 ## API Endpoints
 ### User Profile
 GET /api/v1/users/{user_id}/<br>
