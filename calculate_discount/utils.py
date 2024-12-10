@@ -6,6 +6,18 @@ from decimal import Decimal
 
 
 def amount_information(request):
+    """
+    1.serializing and get data(user_id, items)
+    2.calculate subtotal
+    3.get profile object by user_id
+    4.calculates which discount is more suitable and
+    applies for subtotal
+    5.calculates which loyality discount is more suitable and
+    applies for amount after 4.point
+    6.add discounts in dict
+    7.final amount its amount after loyality discount
+    8.return dict
+    """
     user_id, items = serializing_and_get_data(request)
     subtotal = calculate_subtotal(items)
     profile = get_profile(user_id)

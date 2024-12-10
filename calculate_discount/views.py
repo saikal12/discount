@@ -20,36 +20,18 @@ class DiscountCalculationViews(APIView):
     APIView for calculate discoint
     """
     def post(self, request):
-        """
-        1.serializing and get data(user_id, items)
-        2.calculate subtotal
-        3.get profile object by user_id
-        4.calculates which discount is more suitable and
-        applies for subtotal
-        5.calculates which loyality discount is more suitable and
-        applies for amount after 4.point
-        6.add discounts in dict
-        7.final amount its amount after loyality discount
-        8.return dict"""
-        user_id, items = serializing_and_get_data(request)
-        subtotal = calculate_subtotal(items)
-        profile = get_profile(user_id)
-        cart_discoint, cart_value = apply_cart_discount(subtotal)
-        loyal_discount, loyal_value = apply_loyalty_discount(
-            profile, cart_value
-            )
-        discounts = [cart_discoint, loyal_discount]
-        final_amount = loyal_value
-        discount_total = cart_discoint['amount'] + loyal_discount['amount']
-        dict = {
-            "subtotal": subtotal,
-            "discounts": discounts,
-            "total_discount": discount_total,
-            "final_amount": final_amount
+        """return dict of  
+        {
+        "user_id": user_id,
+        "items": items,
+        "subtotal": subtotal,
+        "cart_discount_amount": cart_discount_amount,
+        "final_amount": final_amount,
+        "status": "pending"
         }
-        return Response(dict)
-
-
+        """
+        data = amount_information()
+        return Response(data)
 
 
 class UserProfileViews(APIView):
@@ -75,7 +57,7 @@ class OrdersManagementViews(viewsets.ModelViewSet):
         self.perform_create(serializer)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+
     def update(self, request, *args, **kwargs):
         order = self.get_object()
         data = amount_information(request)

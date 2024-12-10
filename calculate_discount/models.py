@@ -42,10 +42,10 @@ class Profile(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'Pending'),           # Заказ создан, ожидает обработки
-        ('processing', 'Processing'),     # Заказ в обработке
-        ('completed', 'Completed'),       # Заказ завершён
-        ('cancelled', 'Cancelled'),       # Заказ отменён
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled')       
     ]
     user_id = models.ForeignKey(
         User,
@@ -94,7 +94,9 @@ class DiscountRule(models.Model):
     """
     The rules of the discount that the admin assigns through the admin zone.
     Includes description, type, maximum_discount,
-    discount_value, min_order_value"""
+    discount_value, min_order_value
+    """
+
     description = models.TextField()
     discount_type = models.CharField(
         max_length=50, choices=[
