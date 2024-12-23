@@ -1,5 +1,5 @@
 # Discount Management API
-This project provides an API for managing discounts, user profiles, orders, and system logs. It is built with Django and Django REST Framework (DRF).
+This project provides an API for managing user, verification from email, discounts, user profiles, orders, and system logs. It is built with Django and Django REST Framework (DRF).
 
 ## Features
 ***User Profile Management:*** View and manage user profiles.<br>
