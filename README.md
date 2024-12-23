@@ -66,6 +66,56 @@ Opens the Redoc user interface for easy reading of the API documentation.
 
 
 ## API Endpoints
+
+### Email Verification
+
+ /api/v1/users/verify-email/{uidb64}/{token}/
+
+Description: Verifies the user’s email using a unique token.
+
+Input: uidb64 (Base64 encoded user ID), token (Generated verification token).
+
+Response:
+
+```
+{
+  "message": "Email verified successfully",
+  "access_token": "<JWT Access Token>",
+  "refresh_token": "<JWT Refresh Token>"
+}
+```
+
+
+### Password Reset
+
+/api/v1/users/reset_password/{uidb64}/{token}/
+
+Description: Sends an email with a password reset link to the user.
+
+Response:
+
+Success: 200 OK, with a JSON response containing the password reset status.
+
+### Send Verification Email
+
+Description: Sends an email containing the verification link to the user.
+
+Function: send_verification_email(user)
+
+Input: user object.
+
+Output: Sends an email with the subject "Email Verification" and a verification link.
+
+### Send Password Reset Email
+
+Description: Sends an email with a password reset link to the user.
+
+'/api/v1/password-reset/',
+Function: send_verification_change_password(user)
+
+Input: user object.
+
+Output: Sends an email with the subject "Password Reset Request" and a password reset link.
 ### User Profile
 GET /api/v1/users/{user_id}/<br>
 Response:

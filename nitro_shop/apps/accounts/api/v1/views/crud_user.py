@@ -4,7 +4,12 @@ from nitro_shop.apps.accounts.services.verification import send_verification_ema
 from rest_framework import status
 from nitro_shop.apps.accounts.api.permissions import IsNotAuthenticated, ReadOnly, Owner
 from django.contrib.auth import get_user_model
+from django.db import transaction
+import logging
 
+
+logging.basicConfig(level=logging.ERROR)  # Показывать только ошибки
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -18,22 +23,29 @@ class RegisterView(APIView):
         # Getting the email and password from the request data
         email = request.data.get('email')
         password = request.data.get('password')
+        username = request.data.get('username')
         # Checking if both email and password are provided
-        if not email or not password:
-            return Response({"error": "Email and password are required"},
+        if not email or not password or not username:
+            return Response({"error": "Email, password, username are required"},
                             status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(email=email).exists():
             return Response({"error": "A user with this email already exists."},
                             status=status.HTTP_400_BAD_REQUEST)
-
-        # Create the user using the provided data
-        user = User.objects.create_user(email=email, password=password)
-        # Send a verification email after creating the user
-        send_verification_email(user)
-
-        return Response(
-            {"message": "User created successfully. Please verify your email."},
-            status=status.HTTP_201_CREATED)
+        try:
+            # Create the user using the provided data
+            user = User.objects.create_user(email=email, password=password, username=username)
+            # send verification email to user.email
+            send_verification_email(user)
+            logger.info(f"Verification email sent to {email}.")
+            return Response(
+                {"message": "User created successfully. Please verify your email."},
+                status=status.HTTP_201_CREATED)
+        except Exception as e:
+            logger.error(f"Database operation failed: {str(e)}")
+            return Response(
+                {"error": "An error occurred during user creation."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class UserDetailView(APIView):
@@ -54,7 +66,7 @@ class UserDetailView(APIView):
 class UserUpdateView(APIView):
     # Permission class to ensure only the user owner can update
     permission_classes = [Owner]
-    
+
     def put(self, request, user_id):
         try:
             # Try to retrieve the user by ID

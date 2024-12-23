@@ -1,7 +1,18 @@
 ### Schema Design Documentation
 
 ### Entities and Their Purposes
-1. **Profile**:
+
+**Users**:
+Purpose: Represents the primary user entity for 
+authentication, email verification, and account management.
+-Fields:
+"id": " Unique identifier for each user.",
+"username": " User’s chosen display name.",
+"email": "User’s email address.",
+"password": "User’s password for authentication."
+"is_email_verified" : "Indicates whether the user’s email address has been verified.",
+
+**Profile**:
    - Purpose:  Dynamically calculate and store user-related
     metrics such as the number of orders, total spending, loyalty discounts, and tiers.
    - Fields:
@@ -11,7 +22,7 @@
     "loyalty_status": "decimal",
     "tier": "string",
 
-2.**Order**:
+**Order**:
  - Purpose:  Represent individual user transactions.
  - Fields: 
  "user_id" : "Foreign key linking to `Users`.",
@@ -21,7 +32,7 @@
  "final_amount":"amount after discount",
  "created_date": "created date of order"
  
-3.**OrderItem**:
+**OrderItem**:
 
 Purpose: Represent individual items in an order.
  - Fields: 
@@ -30,7 +41,7 @@ Purpose: Represent individual items in an order.
 "quantity" = "quantity  of product",
 "price" = "price of product"
 
-4.**DiscountRule**:
+**DiscountRule**:
 
 Purpose: Define configurable rules for applying discounts to orders.
  - Fields: 
@@ -41,7 +52,7 @@ Purpose: Define configurable rules for applying discounts to orders.
 "min_order_value": The minimum order value required to apply the discount.
 
 
-4.**LoyaltyDiscount**:
+**LoyaltyDiscount**:
 
 Purpose: Define loyalty levels and associated discounts based on the number of orders.
  - Fields: 
@@ -50,7 +61,7 @@ Purpose: Define loyalty levels and associated discounts based on the number of o
 "max_order" = " Range of orders needed to qualify for the level",
 "discount_percentage" = "Percentage discount associated with the level"
 
-5.**SystemLog**:
+**SystemLog**:
 
 Purpose: Record user actions (e.g., login, logout, create, update, delete) for auditing and troubleshooting.
  - Fields: 

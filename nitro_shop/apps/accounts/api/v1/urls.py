@@ -40,14 +40,14 @@ urlpatterns = [
     path('reset_password/<str:uidb64>/<str:token>/',
          ChangePasword.as_view(), name='password_reset_confirm'),
     # User login
-    path('api/login/', LoginView.as_view(), name='login'),
+    path('login', LoginView.as_view(), name='login'),
     # User logout
-    path('api/logout/', LogoutView.as_view(), name='logout'),
+    path('logout', LogoutView.as_view(), name='logout'),
     # Token management (JWT)
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     # User orders history
-    path('/<int:user_id>/orders/',
+    path('<int:user_id>/orders',
          OrderHistoryViews.as_view(), name='order_history')
 
 ]

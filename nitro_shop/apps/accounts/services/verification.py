@@ -11,12 +11,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 def decode_and_check_token(request, uidb64, token):
     try:
-        # Декодируем id пользователя (получаем ID из URL)
+        # Decoded user ID
         uid = urlsafe_base64_decode(uidb64).decode()
-        user = get_object_or_404(User, pk=uid)  # Получаем пользователя по ID
+        # Get user by ID
+        user = get_object_or_404(User, pk=uid)
     except Exception as e:
         return None, str(e)
-        # Проверяем токен
+        # Check the token
     if not default_token_generator.check_token(user, token):
         return None, "Invalid token"
 
@@ -38,6 +39,8 @@ def verify_email(request, uidb64, token):
 
 
 def make_token_uid(user):
+    """generate token, encode user
+    return token and uid """
     token = default_token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     return token, uid
@@ -48,7 +51,7 @@ def send_verification_email(user):
     verification_link = f"{settings.API_URL}/api/verify-email/{uid}/{token}/"
     subject = "Email Verification"
     message = f"Hi {user.username},\nPlease verify your email by sending a request to the following link:\n{verification_link}"
-    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
+    send_mail(subject, message, settings.EMAIL_HOST_USER , [user.email])
 
 
 def send_verification_change_password(user):
@@ -56,7 +59,4 @@ def send_verification_change_password(user):
     reset_link = f"{settings.API_URL}/api/reset_password/{uid}/{token}/"
     subject = "Password Reset Request"
     message = f"Hi {user.username},\nClick the link below to reset your password:\n{reset_link}\n{reset_link}"
-    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
-
-
-
+    send_mail(subject, message, settings.EMAIL_HOST_USER , [user.email])
