@@ -1,12 +1,25 @@
 # Discount Management API
-This project provides an API for managing user, verification from email, discounts, user profiles, orders, and system logs. It is built with Django and Django REST Framework (DRF).
+This project provides an API for managing users, verification through email, discounts, user profiles, orders, and system logs. It is built using Django and Django REST Framework (DRF), offering various features to manage both the user and order-related functionality.
+
 
 ## Features
+***User Management*** <br>
+User registration with email verification.<br>
+Login and sign-up processes with email verification to ensure secure access.<br>
 ***User Profile Management:*** View and manage user profiles.<br>
 ***Cart Discount Calculation:*** Automatically calculate the best discounts for a user's cart.<br>
 ***Order History:*** Retrieve a user's order history.<br>
 ***System Logs:*** View actions performed in the system for audit and debugging purposes.<br>
 ***Order Management:*** Manage orders using a RESTful interface.<br>
+***CRUD for Users & Their Roles:***<br>
+The API supports full CRUD (Create, Read, Update, Delete)<br> functionality for managing users and their roles. Admins can modify user permissions, assign roles, and update profile details via the API.<br>
+***Login & Sign-Up with Email Verification:***<br>
+Users can sign up and log in with JWT-based authentication. <br>An email verification step is required after registration to activate the account.<br> This ensures that users provide valid email addresses.<br>
+***Password Change with Email Verification***:<br>
+Users can change their passwords by receiving a verification email<br> with a link to confirm the change, adding an extra layer of security.<br>
+***JWT-Based Authentication:***<br>
+
+Secure authentication using JSON Web Tokens (JWT), <br>allowing users to authenticate and perform actions securely across different sessions.<br>
 
 ## Usage
 

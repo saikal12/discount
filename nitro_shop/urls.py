@@ -7,17 +7,17 @@ from rest_framework import permissions
 
 api_v1_urlpatterns = [
     path(
-        'api/v1/users',
+        'api/v1/users/',
         include('nitro_shop.apps.accounts.api.v1.urls')),
     path(
-        'api/v1/cart',
+        'api/v1/cart/',
         include('nitro_shop.apps.discounts.api.v1.urls')
         ),
     path(
         'v1/logs/',
         include('nitro_shop.apps.logs.api.v1.urls')
     ),
-    path('v1/orders', include('nitro_shop.apps.orders.api.v1.urls'))
+    path('v1/orders/', include('nitro_shop.apps.orders.api.v1.urls'))
 ]
 
 

@@ -13,7 +13,7 @@ class OrdersManagementViews(viewsets.ModelViewSet):
     """Includes actions like
     list, create, retrieve, update, partial_update, destroy"""
     # Only allows read-only or owner can access to this view
-    permission_classes = [OwnerOrReadOnly]
+    #permission_classes = [OwnerOrReadOnly]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 

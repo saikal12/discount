@@ -4,11 +4,10 @@ from nitro_shop.apps.accounts.services.verification import send_verification_ema
 from rest_framework import status
 from nitro_shop.apps.accounts.api.permissions import IsNotAuthenticated, ReadOnly, Owner
 from django.contrib.auth import get_user_model
-from django.db import transaction
+
 import logging
 
 
-logging.basicConfig(level=logging.ERROR)  # Показывать только ошибки
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
@@ -34,9 +33,10 @@ class RegisterView(APIView):
         try:
             # Create the user using the provided data
             user = User.objects.create_user(email=email, password=password, username=username)
+            logger.info("User created successfully.")
             # send verification email to user.email
             send_verification_email(user)
-            logger.info(f"Verification email sent to {email}.")
+            logger.info("Email send successfully.")
             return Response(
                 {"message": "User created successfully. Please verify your email."},
                 status=status.HTTP_201_CREATED)
@@ -61,6 +61,16 @@ class UserDetailView(APIView):
         except User.DoesNotExist:
             return Response({"error": "User not found"},
                             status=status.HTTP_404_NOT_FOUND)
+
+
+class UserListView(APIView):
+    # Permission class for read-only access
+    permission_classes = [ReadOnly]
+
+    def get(self, request):
+        # Get all users
+        users = User.objects.all().values('id', 'email', 'username')
+        return Response(users, status=status.HTTP_200_OK)
 
 
 class UserUpdateView(APIView):
